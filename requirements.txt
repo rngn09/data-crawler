@@ -1,0 +1,7 @@
+# for check
+flake8>=3.7
+radon>=3.0.3
+
+# for test
+pytest>=4.6
+pytest-cov>=2.7

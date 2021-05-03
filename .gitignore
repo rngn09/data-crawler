@@ -1,0 +1,11 @@
+# files
+*.pyc
+.coverage
+.coveragerc/
+*.py.swp
+
+# directories
+.pytest_cache/
+__pycache__/
+.coverage/
+.DS_Store

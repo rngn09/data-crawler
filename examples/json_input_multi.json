@@ -1,0 +1,17 @@
+{
+  "Entry0": {
+    "Name": "Sherlock Holmes",
+    "Address": "221B Baker Street, London, NW1 6XE, UK",
+    "Phone Number": "+44 (207) 224-3688"
+  },
+  "Entry1": {
+    "Name": "Harry Potter",
+    "Address": "The Cupboard under the Stairs, 4 Privet Drive, Little Whinging, Surrey, UK",
+    "Phone Number": "+44 (605) 475-6961"
+  },
+  "Entry2": {
+    "Name": "Jane Jetson",
+    "Address": "Skypad Apartments, Orbit City",
+    "Phone Number": "VENUS-1234"
+  }
+}

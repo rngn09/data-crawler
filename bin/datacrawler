@@ -1,0 +1,103 @@
+#!/usr/bin/env python
+
+# a command line tool to collect user data and store in requested file formats
+
+# python modules
+import os
+import argparse
+import webbrowser
+
+# tool modules
+import datacrawler
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Collect and store contact data.')
+
+    parser.add_argument('-f', '--filename', action='store', type=str, help='path to the input file')
+    parser.add_argument('-s', '--storage', action='store', type=str, help='storage format (json, csv etc)')
+
+    parser.add_argument('-r', '--reader', action='store', type=str, help='reading method (optional)')
+    parser.add_argument('-w', '--writer', action='store', type=str, help='writing method (optional)')
+
+    parser.add_argument('-a', '--all', action='store_true', help='list all supported storage formats')
+
+    parser.add_argument('-d', '--display', action='store_true', help='print data in terminal')
+    parser.add_argument('-b', '--browser', action='store_true', help='display data in web browser')
+
+    args = parser.parse_args()
+    filename = args.filename
+    storage = args.storage
+
+    reader_method = args.reader
+    writer_method = args.writer
+
+    all_formats = args.all
+
+    terminal_display = args.display
+    browser_display = args.browser
+
+    if all_formats:
+        print("Supported input formats: {}".format(datacrawler.INPUT_FORMATS.keys()))
+        print("Supported output formats: {}".format(datacrawler.OUTPUT_FORMATS.keys()))
+        exit()
+
+    if filename:
+        if not os.path.isfile(filename):
+            print("Not a valid path: {}".format(filename))
+            exit()
+
+    file_base, file_ext = os.path.splitext(os.path.realpath(filename))
+    crawler = None
+
+    if reader_method:
+        valid_readers = datacrawler.INPUT_FORMATS.get(file_ext[1:])
+        if reader_method not in valid_readers:
+            print("'{}' is not a valid reader method. Available methods: {}".format(reader_method, valid_readers))
+            exit()
+
+    if storage:
+        if writer_method:
+            valid_writers = datacrawler.OUTPUT_FORMATS.get(storage)
+            if writer_method not in valid_writers:
+                print("'{}' is not a valid writer method. Available methods: {}".format(writer_method, valid_writers))
+                exit()
+
+        if storage in datacrawler.OUTPUT_FORMATS.keys():
+            output_file = "{}.{}".format(file_base, storage)
+            crawler = datacrawler.ContactDataCrawler(input_file=filename,
+                                                     output_file=output_file,
+                                                     reader=reader_method,
+                                                     writer=writer_method)
+            crawler.store_data()
+        else:
+            print("Storage format '{}' is not supported".format(storage))
+            exit()
+
+    if terminal_display:
+        if not crawler:
+            crawler = datacrawler.ContactDataCrawler(input_file=filename,
+                                                     reader=reader_method,
+                                                     writer=writer_method)
+            crawler.get_contact_data()
+
+        for entry in crawler.data_dict.values():
+            print("---")
+            for key, value in entry.items():
+                print("{}: {}".format(key, value))
+
+    if browser_display:
+        if not crawler:
+            crawler = datacrawler.ContactDataCrawler(input_file=filename,
+                                                     reader=reader_method,
+                                                     writer=writer_method)
+            crawler.get_contact_data()
+
+        html_file = file_base + ".html"
+        with open(html_file, "w") as hf:
+            for entry in crawler.data_dict.values():
+                hf.write("---<br />")
+                for key, value in entry.items():
+                    hf.write("{}: {}<br />".format(key, value))
+
+        webbrowser.open('file://' + os.path.realpath(html_file), new=2)
+
