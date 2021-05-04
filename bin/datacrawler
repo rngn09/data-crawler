@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# a command line tool to collect user data and store in requested file formats
+# a command line tool to collect contact data and store in requested file formats
 
 # python modules
 import os

@@ -1,1 +1,1 @@
-a commandline tool to collect user data and store in requested file formats
+a commandline tool to collect contact data and store in requested file formats
