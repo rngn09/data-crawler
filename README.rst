@@ -1,5 +1,5 @@
 A commandline tool to collect contact data and store in requested file formats
 
-export PYTHONPATH=/path/to/datacrawler/python:$PYTHONPATH
+export PYTHONPATH=/path/to/data-crawler/python:$PYTHONPATH
 
-export PATH=/path/to/datacrawler:/path/to/datacrawler/bin:$PATH
+export PATH=/path/to/data-crawler:/path/to/data-crawler/bin:$PATH
