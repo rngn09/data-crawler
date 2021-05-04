@@ -19,10 +19,12 @@ def test_store_data_csv_to_json():
                                  reader="default",
                                  writer="default")
     crawler.store_data()
+    csv_input_data = crawler.parse_csv_data()
 
     json_crawler = ContactDataCrawler(input_file=OUTPUT_JSON)
-    json_data = json_crawler.parse_json_data()
-    assert json_data != {}
+    json_output_data = json_crawler.parse_json_data()
+
+    assert json_output_data == csv_input_data
 
 
 def test_store_data_csv_to_json_alternative():
@@ -31,12 +33,13 @@ def test_store_data_csv_to_json_alternative():
                                  reader="nondefault",
                                  writer="nondefault")
     crawler.store_data()
+    csv_input_data = crawler.parse_csv_data()
 
     json_crawler = ContactDataCrawler(input_file=OUTPUT_JSON,
                                       reader="nondefault",
                                       writer="nondefault")
-    json_data = json_crawler.parse_json_data()
-    assert json_data != {}
+    json_output_data = json_crawler.parse_json_data()
+    assert json_output_data == csv_input_data
 
 
 def test_store_data_json_to_csv():
@@ -45,10 +48,12 @@ def test_store_data_json_to_csv():
                                  reader="default",
                                  writer="default")
     crawler.store_data()
+    json_input_data = crawler.parse_json_data()
 
     csv_crawler = ContactDataCrawler(input_file=OUTPUT_CSV)
-    csv_data = csv_crawler.parse_csv_data()
-    assert csv_data != {}
+    csv_output_data = csv_crawler.parse_csv_data()
+
+    assert csv_output_data == json_input_data
 
 
 def test_store_data_json_to_csv_alternative():
@@ -57,9 +62,10 @@ def test_store_data_json_to_csv_alternative():
                                  reader="nondefault",
                                  writer="nondefault")
     crawler.store_data()
+    json_input_data = crawler.parse_json_data()
 
     csv_crawler = ContactDataCrawler(input_file=OUTPUT_CSV,
                                      reader="nondefault",
                                      writer="nondefault")
-    csv_data = csv_crawler.parse_csv_data()
-    assert csv_data != {}
+    csv_output_data = csv_crawler.parse_csv_data()
+    assert csv_output_data == json_input_data
